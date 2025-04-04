@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:learn_flutter_bloc/cubit/todo_cubit.dart';
 
 class AddTodoPage extends StatefulWidget {
   const AddTodoPage({super.key});
@@ -8,7 +10,7 @@ class AddTodoPage extends StatefulWidget {
 }
 
 class _AddTodoPageState extends State<AddTodoPage> {
-  final todoTitleController = TextEditingController();
+  final _nameCtrl = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -20,12 +22,15 @@ class _AddTodoPageState extends State<AddTodoPage> {
         child: Column(
           children: [
             TextField(
-              controller: todoTitleController,
-              decoration: const InputDecoration(hintText: 'Title'),
+              controller: _nameCtrl,
+              decoration: const InputDecoration(hintText: 'name'),
             ),
             const SizedBox(height: 10),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                context.read<TodoCubit>().addTodo(_nameCtrl.text.trim());
+                Navigator.of(context).pop();
+              },
               child: const Text('Add'),
             ),
           ],
